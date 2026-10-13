@@ -105,11 +105,11 @@
 
   let timerNotif: number | undefined;
 
-  function tampilkanNotif(pesan: string): void {
+  function tampilkanNotif(pesan: string, durasi = 4000): void {
     notif.textContent = pesan;
     notif.classList.add("muncul");
     clearTimeout(timerNotif);
-    timerNotif = window.setTimeout(() => notif.classList.remove("muncul"), 4000);
+    timerNotif = window.setTimeout(() => notif.classList.remove("muncul"), durasi);
   }
 
   // Exit = keluar akun, jadi sesinya dihapus dulu (sama seperti logout di dashboard)
@@ -119,6 +119,13 @@
       localStorage.removeItem(KUNCI_SESI);
       location.replace("login.html");
     });
+  }
+
+  // admin/moderator juga boleh buka halaman ini, jadi dikasih jalan balik ke dashboard
+  if (["admin", "moderator"].includes(ambilSesi()?.role.toLowerCase() ?? "")) {
+    const linkDashboard = buat("a", "tombol", "Dashboard");
+    linkDashboard.href = "index.html";
+    navMenu.prepend(linkDashboard);
   }
 
   // ---------- layar penuh ----------
@@ -160,6 +167,7 @@
   // ---------- kartu antrian ----------
 
   interface KartuRef {
+    kartu: HTMLElement;
     menunggu: HTMLElement;
     sebelumnya: HTMLElement;
     dipanggil: HTMLElement;
@@ -206,6 +214,7 @@
 
     kartu.append(atas, bawah, tombol);
     kartuAda.set(jenis.kode, {
+      kartu,
       menunggu,
       sebelumnya: sebelumnya.angka,
       dipanggil: dipanggil.angka,
@@ -213,6 +222,13 @@
       tombol,
     });
     return kartu;
+  }
+
+  // class dilepas dulu, dipaksa reflow, baru dipasang lagi biar animasinya keulang tiap kali dipanggil
+  function sorot(el: Element): void {
+    el.classList.remove("sorot");
+    el.getBoundingClientRect();
+    el.classList.add("sorot");
   }
 
   function angkaNomor(nomor: string): number {
@@ -225,17 +241,47 @@
     return selisih !== 0 ? selisih : a.dibuat - b.dibuat;
   }
 
+  // lang "id-ID" aja gak cukup, browser tetap pakai suara default (biasanya bahasa inggris).
+  // jadi suara bahasa indonesianya dicari manual dari daftar suara yang ada di perangkat
+  let suaraIndonesia: SpeechSynthesisVoice | undefined;
+  let sudahDiingatkan = false;
+
+  function cariSuaraIndonesia(): void {
+    const semua = speechSynthesis
+      .getVoices()
+      .filter((v) => v.lang.toLowerCase().replace("_", "-").startsWith("id"));
+    // suara online (Google, Microsoft Natural) jauh lebih natural dari suara bawaan windows
+    suaraIndonesia = semua.find((v) => /google|natural|online/i.test(v.name)) ?? semua[0];
+  }
+
+  if ("speechSynthesis" in window) {
+    cariSuaraIndonesia();
+    // daftar suara di chrome baru siap belakangan, jadi dicari ulang pas sudah ke-load
+    speechSynthesis.addEventListener("voiceschanged", cariSuaraIndonesia);
+  }
+
   function umumkan(nomor: string, loket: string): void {
     tampilkanNotif(`Nomor ${nomor} dipanggil, silakan menuju ${loket}.`);
     if (!("speechSynthesis" in window)) return;
 
     const [huruf, angka] = nomor.split("-");
+    // "UMUM-1" dibaca "umum satu", strip-nya diganti spasi biar gak dieja aneh
     const suara = new SpeechSynthesisUtterance(
-      `Nomor antrian ${huruf} ${Number(angka)}, silakan menuju ${loket}`
+      `Nomor antrian, ${huruf}, ${Number(angka)}. Silakan menuju loket ${loket.replace(/-/g, " ")}.`
     );
     suara.lang = "id-ID";
+    suara.rate = 0.9;
+    if (suaraIndonesia) suara.voice = suaraIndonesia;
     speechSynthesis.cancel();
     speechSynthesis.speak(suara);
+
+    if (!suaraIndonesia && !sudahDiingatkan) {
+      sudahDiingatkan = true;
+      tampilkanNotif(
+        "Suara Bahasa Indonesia belum ada di perangkat ini. Buka lewat Chrome atau Edge, atau tambahkan suara Indonesia di Pengaturan Windows > Waktu & bahasa > Ucapan.",
+        8000
+      );
+    }
   }
 
   function render(): void {
@@ -267,15 +313,23 @@
       const berikutnya: Tiket | undefined = menunggu[0];
 
       ref.menunggu.textContent = `${menunggu.length} Tiket Menunggu`;
-      ref.sebelumnya.textContent = selesai ? selesai.nomor : `${jenis.kode}-000`;
+      ref.sebelumnya.textContent = selesai ? selesai.nomor : "-";
       ref.dipanggil.textContent = dipanggil ? dipanggil.nomor : "-";
       ref.berikutnya.textContent = berikutnya ? berikutnya.nomor : "-";
       ref.tombol.textContent = diikuti.has(jenis.kode) ? "Notifikasi Aktif" : "Notify Me";
+      ref.tombol.setAttribute("aria-pressed", String(diikuti.has(jenis.kode)));
 
       // pertama kali dimuat cuma catat nomor, jangan diumumkan
       const nomorSekarang = dipanggil ? dipanggil.nomor : "";
       const nomorLama = nomorTerakhir.get(jenis.kode);
       nomorTerakhir.set(jenis.kode, nomorSekarang);
+
+      // ada nomor baru dipanggil: kartunya berpendar dan nomornya lompat, biar keliatan dari jauh
+      if (nomorLama !== undefined && nomorSekarang !== "" && nomorSekarang !== nomorLama) {
+        sorot(ref.kartu);
+        sorot(ref.dipanggil);
+      }
+
       if (
         diikuti.has(jenis.kode) &&
         nomorLama !== undefined &&

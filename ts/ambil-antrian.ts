@@ -124,6 +124,14 @@
     // ---------- layar penuh ----------
 
   const navMenu = ambil<HTMLElement>(".panel-nav");
+
+  // admin/moderator juga boleh buka halaman ini, jadi dikasih jalan balik ke dashboard
+  if (["admin", "moderator"].includes(ambilSesi()?.role.toLowerCase() ?? "")) {
+    const linkDashboard = buat("a", "tombol", "Dashboard");
+    linkDashboard.href = "index.html";
+    navMenu.prepend(linkDashboard);
+  }
+
   const tombolPenuh = buat("button", "tombol");
   tombolPenuh.type = "button";
   navMenu.insertBefore(tombolPenuh, navMenu.lastElementChild); // sebelum tombol Exit
@@ -152,13 +160,10 @@
 
   // pakai gaya .dialog yang sudah ada di style.css, isinya diisi pas tiket berhasil dibuat
   const dialog = buat("dialog", "panel dialog");
-  const dialogNomor = buat("p");
+  // gaya nomornya di style.css (.dialog-nomor), pakai font judul Tourney biar sama kayak desain
+  const dialogNomor = buat("p", "judul dialog-nomor");
   const dialogInfo = buat("p");
   const dialogTutup = buat("button", "tombol", "Tutup");
-
-  // ukuran nomornya sengaja dibesarkan di sini, boleh dipindah ke style.css
-  dialogNomor.style.fontSize = "48px";
-  dialogNomor.style.fontWeight = "700";
 
   const dialogTombol = buat("div", "dialog-tombol");
   dialogTombol.append(dialogTutup);
@@ -249,9 +254,24 @@
       }
     }
 
+    // label kartunya "Total tiket hari ini", jadi tiket hari sebelumnya gak ikut dihitung
+    const hariIni = new Date().toDateString();
     for (const jenis of jenisAktif) {
       const el = totalTiket.get(jenis.kode);
-      if (el) el.textContent = `${tiket.filter((t) => t.kode === jenis.kode).length} Tiket`;
+      const jumlah = tiket.filter(
+        (t) => t.kode === jenis.kode && new Date(t.dibuat).toDateString() === hariIni
+      ).length;
+      const teksBaru = `${jumlah} Tiket`;
+      // angkanya lompat kalau berubah (bukan pas pertama dimuat), tanda tiketnya beneran masuk
+      if (el && el.textContent !== teksBaru) {
+        const pertamaKali = el.textContent === "";
+        el.textContent = teksBaru;
+        if (!pertamaKali) {
+          el.classList.remove("sorot");
+          el.getBoundingClientRect();
+          el.classList.add("sorot");
+        }
+      }
     }
   }
 

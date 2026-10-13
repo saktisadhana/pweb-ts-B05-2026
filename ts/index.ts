@@ -82,12 +82,12 @@ const templateTiket = ambil<HTMLTemplateElement>("#template-tiket");
 
 let timerNotif: number | undefined;
 
-function tampilkanNotif(pesan: string, gagal = false): void {
+function tampilkanNotif(pesan: string, gagal = false, durasi = 2500): void {
   notif.textContent = pesan;
   notif.classList.toggle("gagal", gagal);
   notif.classList.add("muncul");
   clearTimeout(timerNotif);
-  timerNotif = window.setTimeout(() => notif.classList.remove("muncul"), 2500);
+  timerNotif = window.setTimeout(() => notif.classList.remove("muncul"), durasi);
 }
 
 // pengganti confirm() biar tampilannya sesuai desain, Escape otomatis dianggap batal
@@ -111,6 +111,10 @@ const JENIS_AWAL: JenisAntrian[] = [
 
 let daftarJenisAntrian: JenisAntrian[] = [];
 let daftarTiketAntrian: Tiket[] = [];
+
+// baris yang barusan berubah, dikasih animasi sekali di render berikutnya
+let sorotKode = "";
+let sorotNomor = "";
 
 function muatData(): void {
   const jenisBaru = JENIS_AWAL.map((j) => ({ ...j }));
@@ -154,17 +158,46 @@ function isiTeks(induk: ParentNode, selector: string, teks: string): void {
   if (el) el.textContent = teks;
 }
 
+// lang "id-ID" aja gak cukup, browser tetap pakai suara default (biasanya bahasa inggris).
+// jadi suara bahasa indonesianya dicari manual dari daftar suara yang ada di perangkat
+let suaraIndonesia: SpeechSynthesisVoice | undefined;
+let sudahDiingatkan = false;
+
+function cariSuaraIndonesia(): void {
+  const semua = speechSynthesis.getVoices().filter((v) => v.lang.toLowerCase().replace("_", "-").startsWith("id"));
+  // suara online (Google, Microsoft Natural) jauh lebih natural dari suara bawaan windows
+  suaraIndonesia = semua.find((v) => /google|natural|online/i.test(v.name)) ?? semua[0];
+}
+
+if ("speechSynthesis" in window) {
+  cariSuaraIndonesia();
+  // daftar suara di chrome baru siap belakangan, jadi dicari ulang pas sudah ke-load
+  speechSynthesis.addEventListener("voiceschanged", cariSuaraIndonesia);
+}
+
 function umumkan(tiket: Tiket): void {
   if (!("speechSynthesis" in window)) return;
 
   const [huruf, angka] = tiket.nomor.split("-");
-  const loket = cariJenis(tiket.kode)?.nama ?? "";
+  // "UMUM-1" dibaca "umum satu", strip-nya diganti spasi biar gak dieja aneh
+  const loket = (cariJenis(tiket.kode)?.nama ?? "").replace(/-/g, " ");
   const suara = new SpeechSynthesisUtterance(
-    `Nomor antrian ${huruf} ${Number(angka)}, silakan menuju ${loket}`
+    `Nomor antrian, ${huruf}, ${Number(angka)}. Silakan menuju loket ${loket}.`
   );
   suara.lang = "id-ID";
+  suara.rate = 0.9;
+  if (suaraIndonesia) suara.voice = suaraIndonesia;
   speechSynthesis.cancel();
   speechSynthesis.speak(suara);
+
+  if (!suaraIndonesia && !sudahDiingatkan) {
+    sudahDiingatkan = true;
+    tampilkanNotif(
+      "Suara Bahasa Indonesia belum ada di perangkat ini. Buka lewat Chrome atau Edge, atau tambahkan suara Indonesia di Pengaturan Windows > Waktu & bahasa > Ucapan.",
+      true,
+      8000
+    );
+  }
 }
 
 function renderJenis(): void {
@@ -181,6 +214,7 @@ function renderJenis(): void {
 
     li.dataset.kode = jenis.kode;
     li.classList.toggle("item-nonaktif", !jenis.aktif);
+    li.classList.toggle("item-baru", jenis.kode === sorotKode);
     isiTeks(li, ".isi-nama", jenis.nama);
     isiTeks(li, ".isi-kode", `(${jenis.kode})`);
 
@@ -252,6 +286,7 @@ function renderTiket(): void {
       if (!li) continue;
 
       li.dataset.nomor = tiket.nomor;
+      li.classList.toggle("item-baru", tiket.nomor === sorotNomor);
       isiTeks(li, ".isi-nomor", tiket.nomor);
       isiTeks(li, ".isi-prioritas", `(${tiket.prioritas})`);
       isiTeks(li, ".isi-status", tiket.status === "dipanggil" ? "Dipanggil" : "Menunggu");
@@ -283,6 +318,8 @@ function render(): void {
   renderJenis();
   renderPilihanJenis();
   renderTiket();
+  sorotKode = "";
+  sorotNomor = "";
 }
 
 // kode wajib huruf kapital, jadi langsung dibesarkan pas diketik
@@ -315,6 +352,7 @@ formJenis.addEventListener("submit", (e) => {
   if (!formJenis.reportValidity()) return;
 
   daftarJenisAntrian.push({ kode, nama, aktif: true });
+  sorotKode = kode;
   simpan();
   render();
   formJenis.reset();
@@ -369,6 +407,7 @@ formTerbit.addEventListener("submit", (e) => {
     dibuat: Date.now(),
   };
   daftarTiketAntrian.push(tiket);
+  sorotNomor = tiket.nomor;
   simpan();
   render();
   tampilkanNotif(`Tiket ${tiket.nomor} (${prioritas}) diterbitkan.`);
@@ -389,8 +428,9 @@ daftarTiket.addEventListener("click", (e) => {
       if (t.kode === tiket.kode && t.status === "dipanggil" && t !== tiket) t.status = "selesai";
     }
     tiket.status = "dipanggil";
-    umumkan(tiket);
+    sorotNomor = tiket.nomor;
     tampilkanNotif(`Memanggil ${tiket.nomor}.`);
+    umumkan(tiket);
   } else if (aksi === "lewati") {
     tiket.status = "dilewati";
     tampilkanNotif(`${tiket.nomor} dilewati.`);

@@ -87,16 +87,32 @@
             nama,
             firstName: nama,
         }));
-        if (role === "admin" || role === "moderator") {
-            location.replace("index.html");
-            return;
-        }
-        if (role === "user") {
-            location.replace("ambil-antrian.html");
+        const tujuan = halamanRole(role);
+        if (tujuan) {
+            location.replace(tujuan);
             return;
         }
         localStorage.removeItem(KUNCI_SESI);
         throw new Error("Role akun tidak dikenali.");
+    }
+    // kalau sudah login, gak usah isi form lagi, langsung ke halaman sesuai role
+    function halamanRole(role) {
+        if (role === "admin" || role === "moderator")
+            return "index.html";
+        if (role === "user")
+            return "ambil-antrian.html";
+        return null;
+    }
+    try {
+        const sesiLama = JSON.parse(localStorage.getItem(KUNCI_SESI) ?? "null");
+        const tujuan = typeof sesiLama?.token === "string" && typeof sesiLama.role === "string"
+            ? halamanRole(sesiLama.role.toLowerCase())
+            : null;
+        if (tujuan)
+            location.replace(tujuan);
+    }
+    catch {
+        localStorage.removeItem(KUNCI_SESI);
     }
     const formLogin = ambilElemen(".login-form");
     const inputUsername = ambilElemen("#username");
