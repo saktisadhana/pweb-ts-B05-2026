@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Antrian Medical Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,700;1,400&family=Tourney:ital@0;1&display=swap">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../dist/index.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar" aria-hidden="true">
+    <div class="sidebar-garis"></div>
+    <div class="sidebar-ornamen"><img src="../assets/ornamen-index.svg" width="139" height="63" alt=""></div>
+  </aside>
+
+  <main class="index">
+    <header class="index-atas">
+      <div class="panel panel-judul">
+        <h1 class="judul">DASHBOARD</h1>
+      </div>
+      <nav class="panel panel-nav panel-nav-admin" aria-label="Menu admin">
+        <p class="info-user">Masuk sebagai <b id="nama-user">-</b> (<span id="role-user">-</span>)</p>
+        <div class="nav-tombol">
+          <button type="button" id="tombol-reset" class="tombol tombol-merah">Reset Antrian</button>
+          <a href="operator.html" class="tombol">Operator</a>
+          <button type="button" id="tombol-logout" class="tombol">Logout</button>
+        </div>
+      </nav>
+      <div class="panel panel-kuning panel-judul panel-list-judul">
+        <h2 class="judul judul-kuning">LIST TIKET</h2>
+      </div>
+    </header>
+
+    <section class="kolom kolom-kiri" aria-labelledby="judul-antrian">
+      <div class="panel panel-kuning panel-antrian-judul">
+        <h2 id="judul-antrian" class="judul judul-kuning">ANTRIAN</h2>
+      </div>
+
+      <form id="form-jenis" class="panel form-tambah" novalidate>
+        <div class="field field-kode">
+          <label for="input-kode">Kode</label>
+          <input id="input-kode" class="input" type="text" maxlength="1" pattern="[A-Za-z]" autocomplete="off" required>
+        </div>
+        <div class="field field-nama">
+          <label for="input-nama">Nama</label>
+          <input id="input-nama" class="input" type="text" maxlength="12" autocomplete="off" required>
+        </div>
+        <button type="submit" class="tombol tombol-lembut">Tambah</button>
+      </form>
+
+      <div class="panel panel-kuning panel-list">
+        <ul id="daftar-jenis" class="daftar"></ul>
+      </div>
+    </section>
+
+    <section class="kolom kolom-kanan" aria-label="List tiket">
+      <form id="form-terbit" class="panel form-terbit">
+        <div class="field field-jenis">
+          <label for="pilih-jenis">Jenis Antrian</label>
+          <select id="pilih-jenis" class="input" required></select>
+        </div>
+        <div class="field field-prioritas">
+          <label for="pilih-prioritas">Prioritas</label>
+          <select id="pilih-prioritas" class="input">
+            <option>Normal</option>
+            <option>Lansia</option>
+            <option>Disabilitas</option>
+            <option>VIP</option>
+          </select>
+        </div>
+        <button type="submit" id="tombol-terbit" class="tombol tombol-lembut">Terbitkan</button>
+      </form>
+
+      <div class="panel panel-kuning panel-tiket">
+        <div id="daftar-tiket" class="tiket-scroll"></div>
+      </div>
+    </section>
+  </main>
+
+  <p id="notif" class="notif" role="status" aria-live="polite"></p>
+
+  <dialog id="dialog-konfirmasi" class="panel dialog">
+    <form method="dialog">
+      <p id="dialog-pesan"></p>
+      <div class="dialog-tombol">
+        <button value="batal" class="tombol">Batal</button>
+        <button value="ya" class="tombol tombol-merah">Ya, lanjut</button>
+      </div>
+    </form>
+  </dialog>
+
+  <template id="template-jenis">
+    <li class="item">
+      <div class="blok-info">
+        <p class="nama-antrian"><b class="isi-nama"></b><i class="isi-kode"></i></p>
+        <p class="keterangan isi-status"></p>
+      </div>
+      <div class="item-tombol">
+        <button type="button" class="tombol tombol-kecil tombol-merah" data-aksi="hapus">Hapus</button>
+        <button type="button" class="tombol tombol-kecil" data-aksi="toggle"></button>
+      </div>
+    </li>
+  </template>
+
+  <template id="template-tiket">
+    <li class="item">
+      <div class="blok-info">
+        <p class="nama-antrian"><b class="isi-nomor"></b><i class="isi-prioritas"></i></p>
+        <p class="keterangan isi-status"></p>
+      </div>
+      <div class="item-tombol"></div>
+    </li>
+  </template>
+</body>
+</html>

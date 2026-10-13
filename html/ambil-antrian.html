@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ambil Nomer Antrian | Antrian Medical Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,700;1,400&family=Tourney:ital@0;1&display=swap">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../dist/ambil-antrian.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar" aria-hidden="true">
+    <div class="sidebar-garis"></div>
+    <div class="sidebar-ornamen"><img src="../assets/ornamen.svg" width="110" height="63" alt=""></div>
+  </aside>
+
+  <main class="halaman">
+    <header class="header">
+      <div class="panel panel-judul">
+        <h1 class="judul">LAYAR ANTRIAN</h1>
+      </div>
+      <nav class="panel panel-nav" aria-label="Menu antrian">
+        <a href="layar.html" class="tombol">Layar Antrian</a>
+        <a href="ambil-antrian.html" class="tombol tombol-sekarang" aria-current="page">Ambil Nomer Antrian</a>
+        <a href="login.html" class="tombol">Exit</a>
+      </nav>
+    </header>
+
+    <section class="panel panel-kuning panel-utama" aria-label="Daftar loket">
+      <article class="kartu">
+        <div class="kartu-atas">
+          <div class="blok-info">
+            <h2 class="nama-antrian"><b>UMUM-1</b><i>(A)</i></h2>
+            <p class="keterangan">Ambil dengan prioritas:</p>
+          </div>
+          <div class="blok-info rata-kanan">
+            <p class="angka">50 Tiket</p>
+            <p class="keterangan">Total tiket hari ini</p>
+          </div>
+        </div>
+        <fieldset class="pilihan-prioritas kartu-bawah kartu-chip">
+          <legend class="sr-only">Prioritas UMUM-1</legend>
+          <label class="chip"><input type="radio" name="prioritas-a" value="Lansia"><span>Lansia</span></label>
+          <label class="chip"><input type="radio" name="prioritas-a" value="Disabilitas"><span>Disabilitas</span></label>
+          <label class="chip"><input type="radio" name="prioritas-a" value="VIP"><span>VIP</span></label>
+          <label class="chip"><input type="radio" name="prioritas-a" value="Normal" checked><span>Normal</span></label>
+        </fieldset>
+        <button type="button" class="tombol tombol-kuning" data-kode="A">Ambil Nomer</button>
+      </article>
+
+      <article class="kartu">
+        <div class="kartu-atas">
+          <div class="blok-info">
+            <h2 class="nama-antrian"><b>UMUM-2</b><i>(B)</i></h2>
+            <p class="keterangan">Ambil dengan prioritas:</p>
+          </div>
+          <div class="blok-info rata-kanan">
+            <p class="angka">50 Tiket</p>
+            <p class="keterangan">Total tiket hari ini</p>
+          </div>
+        </div>
+        <fieldset class="pilihan-prioritas kartu-bawah kartu-chip">
+          <legend class="sr-only">Prioritas UMUM-2</legend>
+          <label class="chip"><input type="radio" name="prioritas-b" value="Lansia"><span>Lansia</span></label>
+          <label class="chip"><input type="radio" name="prioritas-b" value="Disabilitas"><span>Disabilitas</span></label>
+          <label class="chip"><input type="radio" name="prioritas-b" value="VIP"><span>VIP</span></label>
+          <label class="chip"><input type="radio" name="prioritas-b" value="Normal" checked><span>Normal</span></label>
+        </fieldset>
+        <button type="button" class="tombol tombol-kuning" data-kode="B">Ambil Nomer</button>
+      </article>
+
+      <article class="kartu">
+        <div class="kartu-atas">
+          <div class="blok-info">
+            <h2 class="nama-antrian"><b>UMUM-3</b><i>(C)</i></h2>
+            <p class="keterangan">Ambil dengan prioritas:</p>
+          </div>
+          <div class="blok-info rata-kanan">
+            <p class="angka">0 Tiket</p>
+            <p class="keterangan">Total tiket hari ini</p>
+          </div>
+        </div>
+        <fieldset class="pilihan-prioritas kartu-bawah kartu-chip">
+          <legend class="sr-only">Prioritas UMUM-3</legend>
+          <label class="chip"><input type="radio" name="prioritas-c" value="Lansia"><span>Lansia</span></label>
+          <label class="chip"><input type="radio" name="prioritas-c" value="Disabilitas"><span>Disabilitas</span></label>
+          <label class="chip"><input type="radio" name="prioritas-c" value="VIP"><span>VIP</span></label>
+          <label class="chip"><input type="radio" name="prioritas-c" value="Normal" checked><span>Normal</span></label>
+        </fieldset>
+        <button type="button" class="tombol tombol-kuning" data-kode="C">Ambil Nomer</button>
+      </article>
+
+      <article class="kartu">
+        <div class="kartu-atas">
+          <div class="blok-info">
+            <h2 class="nama-antrian"><b>GIGI</b><i>(G)</i></h2>
+            <p class="keterangan">Ambil dengan prioritas:</p>
+          </div>
+          <div class="blok-info rata-kanan">
+            <p class="angka">50 Tiket</p>
+            <p class="keterangan">Total tiket hari ini</p>
+          </div>
+        </div>
+        <fieldset class="pilihan-prioritas kartu-bawah kartu-chip">
+          <legend class="sr-only">Prioritas GIGI</legend>
+          <label class="chip"><input type="radio" name="prioritas-g" value="Lansia"><span>Lansia</span></label>
+          <label class="chip"><input type="radio" name="prioritas-g" value="Disabilitas"><span>Disabilitas</span></label>
+          <label class="chip"><input type="radio" name="prioritas-g" value="VIP"><span>VIP</span></label>
+          <label class="chip"><input type="radio" name="prioritas-g" value="Normal" checked><span>Normal</span></label>
+        </fieldset>
+        <button type="button" class="tombol tombol-kuning" data-kode="G">Ambil Nomer</button>
+      </article>
+
+      <article class="kartu">
+        <div class="kartu-atas">
+          <div class="blok-info">
+            <h2 class="nama-antrian"><b>FARMASI</b><i>(F)</i></h2>
+            <p class="keterangan">Ambil dengan prioritas:</p>
+          </div>
+          <div class="blok-info rata-kanan">
+            <p class="angka">50 Tiket</p>
+            <p class="keterangan">Total tiket hari ini</p>
+          </div>
+        </div>
+        <fieldset class="pilihan-prioritas kartu-bawah kartu-chip">
+          <legend class="sr-only">Prioritas FARMASI</legend>
+          <label class="chip"><input type="radio" name="prioritas-f" value="Lansia"><span>Lansia</span></label>
+          <label class="chip"><input type="radio" name="prioritas-f" value="Disabilitas"><span>Disabilitas</span></label>
+          <label class="chip"><input type="radio" name="prioritas-f" value="VIP"><span>VIP</span></label>
+          <label class="chip"><input type="radio" name="prioritas-f" value="Normal" checked><span>Normal</span></label>
+        </fieldset>
+        <button type="button" class="tombol tombol-kuning" data-kode="F">Ambil Nomer</button>
+      </article>
+
+      <article class="kartu">
+        <div class="kartu-atas">
+          <div class="blok-info">
+            <h2 class="nama-antrian"><b>PSIKOLOG</b><i>(P)</i></h2>
+            <p class="keterangan">Ambil dengan prioritas:</p>
+          </div>
+          <div class="blok-info rata-kanan">
+            <p class="angka">50 Tiket</p>
+            <p class="keterangan">Total tiket hari ini</p>
+          </div>
+        </div>
+        <fieldset class="pilihan-prioritas kartu-bawah kartu-chip">
+          <legend class="sr-only">Prioritas PSIKOLOG</legend>
+          <label class="chip"><input type="radio" name="prioritas-p" value="Lansia"><span>Lansia</span></label>
+          <label class="chip"><input type="radio" name="prioritas-p" value="Disabilitas"><span>Disabilitas</span></label>
+          <label class="chip"><input type="radio" name="prioritas-p" value="VIP"><span>VIP</span></label>
+          <label class="chip"><input type="radio" name="prioritas-p" value="Normal" checked><span>Normal</span></label>
+        </fieldset>
+        <button type="button" class="tombol tombol-kuning" data-kode="P">Ambil Nomer</button>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

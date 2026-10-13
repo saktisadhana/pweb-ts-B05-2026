@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Operator | Antrian Medical Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,700;1,400&family=Tourney:ital@0;1&display=swap">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../dist/operator.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar" aria-hidden="true">
+    <div class="sidebar-garis"></div>
+    <div class="sidebar-ornamen"><img src="../assets/ornamen.svg" width="110" height="63" alt=""></div>
+  </aside>
+
+  <main class="halaman">
+    <header class="header">
+      <div class="panel panel-judul">
+        <h1 class="judul">PANEL OPERATOR</h1>
+      </div>
+      <nav class="panel panel-nav" aria-label="Menu operator">
+        <a href="login.html" class="tombol">Exit</a>
+      </nav>
+    </header>
+
+    <section class="panel panel-kuning panel-utama" aria-label="Daftar loket">
+      <article class="kartu">
+        <div class="kartu-atas">
+          <div class="blok-info">
+            <h2 class="nama-antrian"><b>UMUM-1</b><i>(A)</i></h2>
+            <p class="keterangan">0 Menunggu</p>
+          </div>
+        </div>
+        <button type="button" class="tombol tombol-kecil tombol-selesai-pojok" data-kode="A">Selesai</button>
+        <div class="kartu-tengah">
+          <div class="blok-info">
+            <p class="angka">A-001</p>
+            <p class="keterangan">Sedang Dipanggil</p>
+          </div>
+          <div class="blok-info">
+            <p class="angka">-</p>
+            <p class="keterangan">Berikutnya</p>
+          </div>
+        </div>
+        <p class="keterangan kartu-kosong">Tidak ada tiket menunggu untuk jenis antrian ini.</p>
+        <button type="button" class="tombol tombol-kuning" data-kode="A">Panggil Berikutnya</button>
+      </article>
+
+      <article class="kartu">
+        <div class="kartu-atas">
+          <div class="blok-info">
+            <h2 class="nama-antrian"><b>UMUM-2</b><i>(B)</i></h2>
+            <p class="keterangan">4 Menunggu</p>
+          </div>
+        </div>
+        <button type="button" class="tombol tombol-kecil tombol-selesai-pojok" data-kode="B">Selesai</button>
+        <div class="kartu-tengah">
+          <div class="blok-info">
+            <p class="angka">-</p>
+            <p class="keterangan">Sedang Dipanggil</p>
+          </div>
+          <div class="blok-info">
+            <p class="angka">B-003</p>
+            <p class="keterangan">Berikutnya</p>
+          </div>
+        </div>
+        <button type="button" class="tombol tombol-kuning" data-kode="B">Panggil Berikutnya</button>
+      </article>
+
+      <article class="kartu">
+        <div class="kartu-atas">
+          <div class="blok-info">
+            <h2 class="nama-antrian"><b>UMUM-3</b><i>(C)</i></h2>
+            <p class="keterangan">1 Menunggu</p>
+          </div>
+        </div>
+        <button type="button" class="tombol tombol-kecil tombol-selesai-pojok" data-kode="C">Selesai</button>
+        <div class="kartu-tengah">
+          <div class="blok-info">
+            <p class="angka">-</p>
+            <p class="keterangan">Sedang Dipanggil</p>
+          </div>
+          <div class="blok-info">
+            <p class="angka">C-001</p>
+            <p class="keterangan">Berikutnya</p>
+          </div>
+        </div>
+        <button type="button" class="tombol tombol-kuning" data-kode="C">Panggil Berikutnya</button>
+      </article>
+
+      <article class="kartu">
+        <div class="kartu-atas">
+          <div class="blok-info">
+            <h2 class="nama-antrian"><b>GIGI</b><i>(G)</i></h2>
+            <p class="keterangan">0 Menunggu</p>
+          </div>
+        </div>
+        <button type="button" class="tombol tombol-kecil tombol-selesai-pojok" data-kode="G">Selesai</button>
+        <div class="kartu-tengah">
+          <div class="blok-info">
+            <p class="angka">G-003</p>
+            <p class="keterangan">Sedang Dipanggil</p>
+          </div>
+          <div class="blok-info">
+            <p class="angka">G-001</p>
+            <p class="keterangan">Berikutnya</p>
+          </div>
+        </div>
+        <button type="button" class="tombol tombol-kuning" data-kode="G">Panggil Berikutnya</button>
+      </article>
+
+      <article class="kartu">
+        <div class="kartu-atas">
+          <div class="blok-info">
+            <h2 class="nama-antrian"><b>FARMASI</b><i>(F)</i></h2>
+            <p class="keterangan">0 Menunggu</p>
+          </div>
+        </div>
+        <button type="button" class="tombol tombol-kecil tombol-selesai-pojok" data-kode="F">Selesai</button>
+        <div class="kartu-tengah">
+          <div class="blok-info">
+            <p class="angka">F-001</p>
+            <p class="keterangan">Sedang Dipanggil</p>
+          </div>
+          <div class="blok-info">
+            <p class="angka">-</p>
+            <p class="keterangan">Berikutnya</p>
+          </div>
+        </div>
+        <p class="keterangan kartu-kosong">Tidak ada tiket menunggu untuk jenis antrian ini.</p>
+        <button type="button" class="tombol tombol-kuning" data-kode="F">Panggil Berikutnya</button>
+      </article>
+
+      <article class="kartu">
+        <div class="kartu-atas">
+          <div class="blok-info">
+            <h2 class="nama-antrian"><b>PSIKOLOG</b><i>(P)</i></h2>
+            <p class="keterangan">0 Menunggu</p>
+          </div>
+        </div>
+        <button type="button" class="tombol tombol-kecil tombol-selesai-pojok" data-kode="P">Selesai</button>
+        <div class="kartu-tengah">
+          <div class="blok-info">
+            <p class="angka">P-001</p>
+            <p class="keterangan">Sedang Dipanggil</p>
+          </div>
+          <div class="blok-info">
+            <p class="angka">-</p>
+            <p class="keterangan">Berikutnya</p>
+          </div>
+        </div>
+        <p class="keterangan kartu-kosong">Tidak ada tiket menunggu untuk jenis antrian ini.</p>
+        <button type="button" class="tombol tombol-kuning" data-kode="P">Panggil Berikutnya</button>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

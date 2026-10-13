@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Antrian Medical Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,700;1,400&family=Tourney:ital@0;1&display=swap">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../dist/login.js" defer></script>
+</head>
+<body class="hal-login">
+  <main class="login">
+    <div class="login-kolom-kiri hiasan" aria-hidden="true">
+      <div class="sidebar-garis"></div>
+      <div class="sidebar-ornamen"><img src="../assets/ornamen.svg" width="110" height="63" alt=""></div>
+    </div>
+
+    <!-- bingkai bentuk L: kotak besar, terus pojok kanan bawahnya ditutup sama .login-cekung -->
+    <div class="panel login-medical">
+      <h1 class="judul judul-medical">MEDICAL CENTER</h1>
+    </div>
+    <div class="login-cekung hiasan" aria-hidden="true"></div>
+    <div class="login-medical-hiasan hiasan" aria-hidden="true">
+      <div class="garis-mendatar" style="top: -20px;"></div>
+      <div class="garis-mendatar" style="top: 138px;"></div>
+      <img class="ornamen" style="right: 9px; top: -6px;" src="../assets/ornamen-biru.svg" width="110" height="63" alt="">
+      <img class="ornamen" style="left: 19px; top: 150px;" src="../assets/ornamen-biru.svg" width="110" height="63" alt="">
+    </div>
+
+    <div class="panel panel-kuning login-judul">
+      <h2 class="judul judul-login judul-kuning-tegak">LOGIN</h2>
+    </div>
+
+    <!-- input sengaja tanpa name supaya password gak ikut nempel di url, nanti login.ts yang ngurus -->
+    <form class="panel login-form" action="index.html">
+      <div class="field">
+        <label for="username">Username</label>
+        <input id="username" class="input" type="text" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" class="input" type="password" autocomplete="current-password" required>
+      </div>
+      <button type="button" class="lupa-password" disabled title="Belum tersedia">Forgot Password?</button>
+      <button type="submit" class="tombol tombol-lembut">Login</button>
+    </form>
+
+    <div class="panel login-kanan hiasan" aria-hidden="true">
+      <div class="garis-mendatar" style="top: 25px;"></div>
+      <div class="garis-mendatar" style="top: 154px;"></div>
+      <div class="garis-mendatar" style="top: 283px;"></div>
+      <div class="garis-mendatar" style="top: 412px;"></div>
+      <img class="ornamen" style="left: 17px; top: 166px;" src="../assets/ornamen-biru.svg" width="110" height="63" alt="">
+      <img class="ornamen" style="right: 11px; top: 37px;" src="../assets/ornamen-biru.svg" width="110" height="63" alt="">
+    </div>
+
+    <div class="panel panel-kuning login-kanan-atas hiasan" aria-hidden="true">
+      <div class="garis-tegak" style="left: 41px;"></div>
+      <div class="garis-tegak" style="right: 45px;"></div>
+      <div class="ornamen-tegak"><img src="../assets/ornamen-kuning-tegak.svg" width="118" height="71" alt=""></div>
+    </div>
+
+    <div class="panel panel-kuning login-seno">
+      <img class="ornamen hiasan" style="left: 11px; top: 11px;" src="../assets/ornamen-kuning.svg" width="118" height="71" alt="">
+      <img class="logo-seno" src="../assets/logo-seno.svg" width="294" height="91" alt="SENO">
+    </div>
+  </main>
+</body>
+</html>
